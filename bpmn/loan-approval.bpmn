@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:zeebe="http://camunda.org/schema/zeebe/1.0"
+  xmlns:modeler="http://camunda.org/schema/modeler/1.0"
+  id="Definitions_loan_approval"
+  targetNamespace="http://bpmn.io/schema/bpmn"
+  exporter="camunda-loan-connector"
+  exporterVersion="0.1.0"
+  modeler:executionPlatform="Camunda Cloud"
+  modeler:executionPlatformVersion="8.10.0">
+
+  <bpmn:error id="Error_LegacyUnavailable" errorCode="LEGACY_UNAVAILABLE" />
+
+  <bpmn:process id="loan-approval" name="Loan approval" isExecutable="true">
+    <bpmn:startEvent id="StartApplicationReceived" name="Application received">
+      <bpmn:outgoing>Flow_Start_To_CreditCheck</bpmn:outgoing>
+    </bpmn:startEvent>
+
+    <bpmn:serviceTask id="CreditCheckTask" name="Credit check (legacy core)"
+      zeebe:modelerTemplate="com.acme.loan.legacy-core-banking.v1"
+      zeebe:modelerTemplateVersion="1">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="com.acme:legacy-core-banking:1" retries="3" />
+        <zeebe:taskHeaders>
+          <zeebe:header key="operation" value="creditCheck" />
+          <zeebe:header key="elementTemplateVersion" value="1" />
+          <zeebe:header key="elementTemplateId" value="com.acme.loan.legacy-core-banking.v1" />
+          <zeebe:header key="resultVariable" value="creditCheck" />
+          <zeebe:header key="retryBackoff" value="PT2S" />
+          <zeebe:header key="errorExpression" value="if ((error.code = &quot;LEGACY_UNAVAILABLE&quot;) or (error.code = &quot;LEGACY_TIMEOUT&quot;)) and job.retries &lt;= 1 then bpmnError(&quot;LEGACY_UNAVAILABLE&quot;, error.message) else null" />
+        </zeebe:taskHeaders>
+        <zeebe:ioMapping>
+          <zeebe:input source="=applicantId" target="applicantId" />
+          <zeebe:input source="=amount" target="amount" />
+          <zeebe:input source="http://mock-legacy:8080" target="baseUrl" />
+          <zeebe:input source="1800" target="timeoutMillis" />
+        </zeebe:ioMapping>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_Start_To_CreditCheck</bpmn:incoming>
+      <bpmn:outgoing>Flow_CreditCheck_To_Decision</bpmn:outgoing>
+    </bpmn:serviceTask>
+
+    <bpmn:boundaryEvent id="BoundaryLegacyError" name="Legacy unavailable" attachedToRef="CreditCheckTask">
+      <bpmn:outgoing>Flow_Boundary_To_NotifyLegacyError</bpmn:outgoing>
+      <bpmn:errorEventDefinition id="ErrorEventDefinition_Legacy" errorRef="Error_LegacyUnavailable" />
+    </bpmn:boundaryEvent>
+
+    <bpmn:exclusiveGateway id="GatewayAutoDecision" name="Auto-approval rules met?" default="Flow_Gateway_To_ManualReview">
+      <bpmn:incoming>Flow_CreditCheck_To_Decision</bpmn:incoming>
+      <bpmn:outgoing>Flow_Gateway_To_AutoApprove</bpmn:outgoing>
+      <bpmn:outgoing>Flow_Gateway_To_ManualReview</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:userTask id="ManualReviewTask" name="Manual underwriting review">
+      <bpmn:extensionElements>
+        <zeebe:userTask />
+        <zeebe:assignmentDefinition assignee="demo" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_Gateway_To_ManualReview</bpmn:incoming>
+      <bpmn:outgoing>Flow_ManualReview_To_ReviewDecision</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:exclusiveGateway id="GatewayReviewDecision" name="Reviewer approved?" default="Flow_Review_To_NotifyRejected">
+      <bpmn:incoming>Flow_ManualReview_To_ReviewDecision</bpmn:incoming>
+      <bpmn:outgoing>Flow_Review_To_NotifyApproved</bpmn:outgoing>
+      <bpmn:outgoing>Flow_Review_To_NotifyRejected</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:serviceTask id="NotifyApprovedTask" name="Notify applicant: approved"
+      zeebe:modelerTemplate="com.acme.loan.legacy-core-banking.v1"
+      zeebe:modelerTemplateVersion="1">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="com.acme:legacy-core-banking:1" retries="3" />
+        <zeebe:taskHeaders>
+          <zeebe:header key="operation" value="notifyApplicant" />
+          <zeebe:header key="elementTemplateVersion" value="1" />
+          <zeebe:header key="elementTemplateId" value="com.acme.loan.legacy-core-banking.v1" />
+          <zeebe:header key="resultVariable" value="approvalNotification" />
+          <zeebe:header key="retryBackoff" value="PT2S" />
+        </zeebe:taskHeaders>
+        <zeebe:ioMapping>
+          <zeebe:input source="=applicantId" target="applicantId" />
+          <zeebe:input source="APPROVED" target="decision" />
+          <zeebe:input source="Your loan application was approved." target="message" />
+          <zeebe:input source="http://mock-legacy:8080" target="baseUrl" />
+          <zeebe:input source="1800" target="timeoutMillis" />
+        </zeebe:ioMapping>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_Review_To_NotifyApproved</bpmn:incoming>
+      <bpmn:outgoing>Flow_NotifyApproved_To_EndApproved</bpmn:outgoing>
+    </bpmn:serviceTask>
+
+    <bpmn:serviceTask id="NotifyRejectedTask" name="Notify applicant: rejected"
+      zeebe:modelerTemplate="com.acme.loan.legacy-core-banking.v1"
+      zeebe:modelerTemplateVersion="1">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="com.acme:legacy-core-banking:1" retries="3" />
+        <zeebe:taskHeaders>
+          <zeebe:header key="operation" value="notifyApplicant" />
+          <zeebe:header key="elementTemplateVersion" value="1" />
+          <zeebe:header key="elementTemplateId" value="com.acme.loan.legacy-core-banking.v1" />
+          <zeebe:header key="resultVariable" value="rejectionNotification" />
+          <zeebe:header key="retryBackoff" value="PT2S" />
+        </zeebe:taskHeaders>
+        <zeebe:ioMapping>
+          <zeebe:input source="=applicantId" target="applicantId" />
+          <zeebe:input source="REJECTED" target="decision" />
+          <zeebe:input source="Your loan application was not approved." target="message" />
+          <zeebe:input source="http://mock-legacy:8080" target="baseUrl" />
+          <zeebe:input source="1800" target="timeoutMillis" />
+        </zeebe:ioMapping>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_Review_To_NotifyRejected</bpmn:incoming>
+      <bpmn:outgoing>Flow_NotifyRejected_To_EndRejected</bpmn:outgoing>
+    </bpmn:serviceTask>
+
+    <bpmn:serviceTask id="NotifyLegacyErrorTask" name="Notify applicant: manual follow-up"
+      zeebe:modelerTemplate="com.acme.loan.legacy-core-banking.v1"
+      zeebe:modelerTemplateVersion="1">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="com.acme:legacy-core-banking:1" retries="3" />
+        <zeebe:taskHeaders>
+          <zeebe:header key="operation" value="notifyApplicant" />
+          <zeebe:header key="elementTemplateVersion" value="1" />
+          <zeebe:header key="elementTemplateId" value="com.acme.loan.legacy-core-banking.v1" />
+          <zeebe:header key="resultVariable" value="legacyErrorNotification" />
+          <zeebe:header key="retryBackoff" value="PT2S" />
+        </zeebe:taskHeaders>
+        <zeebe:ioMapping>
+          <zeebe:input source="=applicantId" target="applicantId" />
+          <zeebe:input source="MANUAL_FOLLOW_UP" target="decision" />
+          <zeebe:input source="Our credit system is unavailable; underwriting will follow up manually." target="message" />
+          <zeebe:input source="http://mock-legacy:8080" target="baseUrl" />
+          <zeebe:input source="1800" target="timeoutMillis" />
+        </zeebe:ioMapping>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_Boundary_To_NotifyLegacyError</bpmn:incoming>
+      <bpmn:outgoing>Flow_NotifyLegacyError_To_EndLegacyError</bpmn:outgoing>
+    </bpmn:serviceTask>
+
+    <bpmn:endEvent id="EndApproved" name="Approved notification sent">
+      <bpmn:incoming>Flow_NotifyApproved_To_EndApproved</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:endEvent id="EndRejected" name="Rejected notification sent">
+      <bpmn:incoming>Flow_NotifyRejected_To_EndRejected</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:endEvent id="EndLegacyError" name="Manual follow-up sent">
+      <bpmn:incoming>Flow_NotifyLegacyError_To_EndLegacyError</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <bpmn:sequenceFlow id="Flow_Start_To_CreditCheck" sourceRef="StartApplicationReceived" targetRef="CreditCheckTask" />
+    <bpmn:sequenceFlow id="Flow_CreditCheck_To_Decision" sourceRef="CreditCheckTask" targetRef="GatewayAutoDecision" />
+    <bpmn:sequenceFlow id="Flow_Gateway_To_AutoApprove" name="amount ≤ 25k and score ≥ 650" sourceRef="GatewayAutoDecision" targetRef="NotifyApprovedTask">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=amount &lt;= 25000 and creditCheck.creditScore &gt;= 650</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_Gateway_To_ManualReview" name="otherwise" sourceRef="GatewayAutoDecision" targetRef="ManualReviewTask" />
+    <bpmn:sequenceFlow id="Flow_ManualReview_To_ReviewDecision" sourceRef="ManualReviewTask" targetRef="GatewayReviewDecision" />
+    <bpmn:sequenceFlow id="Flow_Review_To_NotifyApproved" name="approved" sourceRef="GatewayReviewDecision" targetRef="NotifyApprovedTask">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=approved</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_Review_To_NotifyRejected" name="rejected" sourceRef="GatewayReviewDecision" targetRef="NotifyRejectedTask" />
+    <bpmn:sequenceFlow id="Flow_NotifyApproved_To_EndApproved" sourceRef="NotifyApprovedTask" targetRef="EndApproved" />
+    <bpmn:sequenceFlow id="Flow_NotifyRejected_To_EndRejected" sourceRef="NotifyRejectedTask" targetRef="EndRejected" />
+    <bpmn:sequenceFlow id="Flow_Boundary_To_NotifyLegacyError" sourceRef="BoundaryLegacyError" targetRef="NotifyLegacyErrorTask" />
+    <bpmn:sequenceFlow id="Flow_NotifyLegacyError_To_EndLegacyError" sourceRef="NotifyLegacyErrorTask" targetRef="EndLegacyError" />
+  </bpmn:process>
+
+  <bpmndi:BPMNDiagram id="BPMNDiagram_loan">
+    <bpmndi:BPMNPlane id="BPMNPlane_loan" bpmnElement="loan-approval">
+      <bpmndi:BPMNShape id="StartApplicationReceived_di" bpmnElement="StartApplicationReceived"><dc:Bounds x="120" y="180" width="36" height="36" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="CreditCheckTask_di" bpmnElement="CreditCheckTask"><dc:Bounds x="220" y="158" width="132" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BoundaryLegacyError_di" bpmnElement="BoundaryLegacyError"><dc:Bounds x="292" y="220" width="36" height="36" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="GatewayAutoDecision_di" bpmnElement="GatewayAutoDecision" isMarkerVisible="true"><dc:Bounds x="425" y="173" width="50" height="50" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ManualReviewTask_di" bpmnElement="ManualReviewTask"><dc:Bounds x="540" y="245" width="132" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="GatewayReviewDecision_di" bpmnElement="GatewayReviewDecision" isMarkerVisible="true"><dc:Bounds x="735" y="260" width="50" height="50" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="NotifyApprovedTask_di" bpmnElement="NotifyApprovedTask"><dc:Bounds x="880" y="72" width="132" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="NotifyRejectedTask_di" bpmnElement="NotifyRejectedTask"><dc:Bounds x="880" y="245" width="132" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="NotifyLegacyErrorTask_di" bpmnElement="NotifyLegacyErrorTask"><dc:Bounds x="520" y="405" width="150" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndApproved_di" bpmnElement="EndApproved"><dc:Bounds x="1090" y="94" width="36" height="36" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndRejected_di" bpmnElement="EndRejected"><dc:Bounds x="1090" y="267" width="36" height="36" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndLegacyError_di" bpmnElement="EndLegacyError"><dc:Bounds x="750" y="427" width="36" height="36" /></bpmndi:BPMNShape>
+
+      <bpmndi:BPMNEdge id="Flow_Start_To_CreditCheck_di" bpmnElement="Flow_Start_To_CreditCheck"><di:waypoint x="156" y="198" /><di:waypoint x="220" y="198" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_CreditCheck_To_Decision_di" bpmnElement="Flow_CreditCheck_To_Decision"><di:waypoint x="352" y="198" /><di:waypoint x="425" y="198" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Gateway_To_AutoApprove_di" bpmnElement="Flow_Gateway_To_AutoApprove"><di:waypoint x="450" y="173" /><di:waypoint x="450" y="112" /><di:waypoint x="880" y="112" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Gateway_To_ManualReview_di" bpmnElement="Flow_Gateway_To_ManualReview"><di:waypoint x="450" y="223" /><di:waypoint x="450" y="285" /><di:waypoint x="540" y="285" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_ManualReview_To_ReviewDecision_di" bpmnElement="Flow_ManualReview_To_ReviewDecision"><di:waypoint x="672" y="285" /><di:waypoint x="735" y="285" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Review_To_NotifyApproved_di" bpmnElement="Flow_Review_To_NotifyApproved"><di:waypoint x="760" y="260" /><di:waypoint x="760" y="112" /><di:waypoint x="880" y="112" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Review_To_NotifyRejected_di" bpmnElement="Flow_Review_To_NotifyRejected"><di:waypoint x="785" y="285" /><di:waypoint x="880" y="285" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_NotifyApproved_To_EndApproved_di" bpmnElement="Flow_NotifyApproved_To_EndApproved"><di:waypoint x="1012" y="112" /><di:waypoint x="1090" y="112" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_NotifyRejected_To_EndRejected_di" bpmnElement="Flow_NotifyRejected_To_EndRejected"><di:waypoint x="1012" y="285" /><di:waypoint x="1090" y="285" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Boundary_To_NotifyLegacyError_di" bpmnElement="Flow_Boundary_To_NotifyLegacyError"><di:waypoint x="310" y="256" /><di:waypoint x="310" y="445" /><di:waypoint x="520" y="445" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_NotifyLegacyError_To_EndLegacyError_di" bpmnElement="Flow_NotifyLegacyError_To_EndLegacyError"><di:waypoint x="670" y="445" /><di:waypoint x="750" y="445" /></bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

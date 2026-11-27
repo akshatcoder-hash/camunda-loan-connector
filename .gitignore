@@ -1,0 +1,16 @@
+.env
+.m2/
+**/target/
+*.class
+*.log.tmp
+.DS_Store
+.idea/
+.vscode/
+secrets/*
+!secrets/.gitkeep
+driver-lib/*
+!driver-lib/.gitkeep
+
+__pycache__/
+*.pyc
+connector/element-templates/

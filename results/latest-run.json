@@ -1,0 +1,760 @@
+{
+  "deployment": {
+    "deploymentKey": "2251799813685421",
+    "tenantId": "<default>",
+    "deployments": [
+      {
+        "processDefinition": {
+          "processDefinitionId": "loan-approval",
+          "processDefinitionVersion": 1,
+          "resourceName": "loan-approval.bpmn",
+          "tenantId": "<default>",
+          "processDefinitionKey": "2251799813685422"
+        },
+        "decisionDefinition": null,
+        "decisionRequirements": null,
+        "form": null,
+        "resource": null
+      }
+    ]
+  },
+  "scenarios": {
+    "auto-approve": {
+      "processInstanceKey": "2251799813685423",
+      "state": "COMPLETED",
+      "hasIncident": false,
+      "variables": [
+        {
+          "value": "\"auto-approve\"",
+          "isTruncated": false,
+          "name": "scenario",
+          "tenantId": "<default>",
+          "variableKey": "2251799813685424",
+          "scopeKey": "2251799813685423",
+          "processInstanceKey": "2251799813685423",
+          "rootProcessInstanceKey": "2251799813685423"
+        },
+        {
+          "value": "15000",
+          "isTruncated": false,
+          "name": "amount",
+          "tenantId": "<default>",
+          "variableKey": "2251799813685425",
+          "scopeKey": "2251799813685423",
+          "processInstanceKey": "2251799813685423",
+          "rootProcessInstanceKey": "2251799813685423"
+        },
+        {
+          "value": "\"AUTO-1001\"",
+          "isTruncated": false,
+          "name": "applicantId",
+          "tenantId": "<default>",
+          "variableKey": "2251799813685426",
+          "scopeKey": "2251799813685423",
+          "processInstanceKey": "2251799813685423",
+          "rootProcessInstanceKey": "2251799813685423"
+        },
+        {
+          "value": "\"1800\"",
+          "isTruncated": false,
+          "name": "timeoutMillis",
+          "tenantId": "<default>",
+          "variableKey": "2251799813685431",
+          "scopeKey": "2251799813685430",
+          "processInstanceKey": "2251799813685423",
+          "rootProcessInstanceKey": "2251799813685423"
+        },
+        {
+          "value": "\"http://mock-legacy:8080\"",
+          "isTruncated": false,
+          "name": "baseUrl",
+          "tenantId": "<default>",
+          "variableKey": "2251799813685432",
+          "scopeKey": "2251799813685430",
+          "processInstanceKey": "2251799813685423",
+          "rootProcessInstanceKey": "2251799813685423"
+        },
+        {
+          "value": "15000",
+          "isTruncated": false,
+          "name": "amount",
+          "tenantId": "<default>",
+          "variableKey": "2251799813685433",
+          "scopeKey": "2251799813685430",
+          "processInstanceKey": "2251799813685423",
+          "rootProcessInstanceKey": "2251799813685423"
+        },
+        {
+          "value": "\"AUTO-1001\"",
+          "isTruncated": false,
+          "name": "applicantId",
+          "tenantId": "<default>",
+          "variableKey": "2251799813685434",
+          "scopeKey": "2251799813685430",
+          "processInstanceKey": "2251799813685423",
+          "rootProcessInstanceKey": "2251799813685423"
+        },
+        {
+          "value": "{\"applicantId\":\"AUTO-1001\",\"creditScore\":762,\"riskBand\":\"LOW\",\"legacyReference\":\"CR-33982\",\"upstreamStatus\":200,\"latencyMillis\":618}",
+          "isTruncated": false,
+          "name": "creditCheck",
+          "tenantId": "<default>",
+          "variableKey": "2251799813685438",
+          "scopeKey": "2251799813685423",
+          "processInstanceKey": "2251799813685423",
+          "rootProcessInstanceKey": "2251799813685423"
+        },
+        {
+          "value": "\"APPROVED\"",
+          "isTruncated": false,
+          "name": "decision",
+          "tenantId": "<default>",
+          "variableKey": "2251799813685443",
+          "scopeKey": "2251799813685442",
+          "processInstanceKey": "2251799813685423",
+          "rootProcessInstanceKey": "2251799813685423"
+        },
+        {
+          "value": "\"http://mock-legacy:8080\"",
+          "isTruncated": false,
+          "name": "baseUrl",
+          "tenantId": "<default>",
+          "variableKey": "2251799813685444",
+          "scopeKey": "2251799813685442",
+          "processInstanceKey": "2251799813685423",
+          "rootProcessInstanceKey": "2251799813685423"
+        },
+        {
+          "value": "\"1800\"",
+          "isTruncated": false,
+          "name": "timeoutMillis",
+          "tenantId": "<default>",
+          "variableKey": "2251799813685445",
+          "scopeKey": "2251799813685442",
+          "processInstanceKey": "2251799813685423",
+          "rootProcessInstanceKey": "2251799813685423"
+        },
+        {
+          "value": "\"AUTO-1001\"",
+          "isTruncated": false,
+          "name": "applicantId",
+          "tenantId": "<default>",
+          "variableKey": "2251799813685446",
+          "scopeKey": "2251799813685442",
+          "processInstanceKey": "2251799813685423",
+          "rootProcessInstanceKey": "2251799813685423"
+        },
+        {
+          "value": "\"Your loan application was approved.\"",
+          "isTruncated": false,
+          "name": "message",
+          "tenantId": "<default>",
+          "variableKey": "2251799813685447",
+          "scopeKey": "2251799813685442",
+          "processInstanceKey": "2251799813685423",
+          "rootProcessInstanceKey": "2251799813685423"
+        },
+        {
+          "value": "{\"notificationId\":\"23bdbee5-a6ec-446d-961b-55e7d299cb5e\",\"status\":\"QUEUED\",\"upstreamStatus\":200,\"latencyMillis\":159}",
+          "isTruncated": false,
+          "name": "approvalNotification",
+          "tenantId": "<default>",
+          "variableKey": "2251799813685451",
+          "scopeKey": "2251799813685423",
+          "processInstanceKey": "2251799813685423",
+          "rootProcessInstanceKey": "2251799813685423"
+        }
+      ],
+      "incidents": [],
+      "elementInstances": [
+        {
+          "processDefinitionId": "loan-approval",
+          "startDate": "2026-11-27T13:56:57.842Z",
+          "endDate": "2026-11-27T13:56:57.842Z",
+          "elementId": "StartApplicationReceived",
+          "elementName": "Application received",
+          "type": "START_EVENT",
+          "state": "COMPLETED",
+          "hasIncident": false,
+          "tenantId": "<default>",
+          "elementInstanceKey": "2251799813685428",
+          "processInstanceKey": "2251799813685423",
+          "rootProcessInstanceKey": "2251799813685423",
+          "processDefinitionKey": "2251799813685422",
+          "incidentKey": null
+        },
+        {
+          "processDefinitionId": "loan-approval",
+          "startDate": "2026-11-27T13:56:57.842Z",
+          "endDate": "2026-11-27T13:56:58.800Z",
+          "elementId": "CreditCheckTask",
+          "elementName": "Credit check (legacy core)",
+          "type": "SERVICE_TASK",
+          "state": "COMPLETED",
+          "hasIncident": false,
+          "tenantId": "<default>",
+          "elementInstanceKey": "2251799813685430",
+          "processInstanceKey": "2251799813685423",
+          "rootProcessInstanceKey": "2251799813685423",
+          "processDefinitionKey": "2251799813685422",
+          "incidentKey": null
+        },
+        {
+          "processDefinitionId": "loan-approval",
+          "startDate": "2026-11-27T13:56:58.800Z",
+          "endDate": "2026-11-27T13:56:58.800Z",
+          "elementId": "GatewayAutoDecision",
+          "elementName": "Auto-approval rules met?",
+          "type": "EXCLUSIVE_GATEWAY",
+          "state": "COMPLETED",
+          "hasIncident": false,
+          "tenantId": "<default>",
+          "elementInstanceKey": "2251799813685440",
+          "processInstanceKey": "2251799813685423",
+          "rootProcessInstanceKey": "2251799813685423",
+          "processDefinitionKey": "2251799813685422",
+          "incidentKey": null
+        },
+        {
+          "processDefinitionId": "loan-approval",
+          "startDate": "2026-11-27T13:56:58.800Z",
+          "endDate": "2026-11-27T13:56:59.012Z",
+          "elementId": "NotifyApprovedTask",
+          "elementName": "Notify applicant: approved",
+          "type": "SERVICE_TASK",
+          "state": "COMPLETED",
+          "hasIncident": false,
+          "tenantId": "<default>",
+          "elementInstanceKey": "2251799813685442",
+          "processInstanceKey": "2251799813685423",
+          "rootProcessInstanceKey": "2251799813685423",
+          "processDefinitionKey": "2251799813685422",
+          "incidentKey": null
+        },
+        {
+          "processDefinitionId": "loan-approval",
+          "startDate": "2026-11-27T13:56:59.012Z",
+          "endDate": "2026-11-27T13:56:59.012Z",
+          "elementId": "EndApproved",
+          "elementName": "Approved notification sent",
+          "type": "END_EVENT",
+          "state": "COMPLETED",
+          "hasIncident": false,
+          "tenantId": "<default>",
+          "elementInstanceKey": "2251799813685453",
+          "processInstanceKey": "2251799813685423",
+          "rootProcessInstanceKey": "2251799813685423",
+          "processDefinitionKey": "2251799813685422",
+          "incidentKey": null
+        }
+      ]
+    },
+    "manual-review": {
+      "processInstanceKey": "2251799813685454",
+      "state": "COMPLETED",
+      "hasIncident": false,
+      "variables": [
+        {
+          "value": "\"MANUAL-2001\"",
+          "isTruncated": false,
+          "name": "applicantId",
+          "tenantId": "<default>",
+          "variableKey": "2251799813685455",
+          "scopeKey": "2251799813685454",
+          "processInstanceKey": "2251799813685454",
+          "rootProcessInstanceKey": "2251799813685454"
+        },
+        {
+          "value": "\"manual-review\"",
+          "isTruncated": false,
+          "name": "scenario",
+          "tenantId": "<default>",
+          "variableKey": "2251799813685456",
+          "scopeKey": "2251799813685454",
+          "processInstanceKey": "2251799813685454",
+          "rootProcessInstanceKey": "2251799813685454"
+        },
+        {
+          "value": "85000",
+          "isTruncated": false,
+          "name": "amount",
+          "tenantId": "<default>",
+          "variableKey": "2251799813685457",
+          "scopeKey": "2251799813685454",
+          "processInstanceKey": "2251799813685454",
+          "rootProcessInstanceKey": "2251799813685454"
+        },
+        {
+          "value": "\"MANUAL-2001\"",
+          "isTruncated": false,
+          "name": "applicantId",
+          "tenantId": "<default>",
+          "variableKey": "2251799813685462",
+          "scopeKey": "2251799813685461",
+          "processInstanceKey": "2251799813685454",
+          "rootProcessInstanceKey": "2251799813685454"
+        },
+        {
+          "value": "\"1800\"",
+          "isTruncated": false,
+          "name": "timeoutMillis",
+          "tenantId": "<default>",
+          "variableKey": "2251799813685463",
+          "scopeKey": "2251799813685461",
+          "processInstanceKey": "2251799813685454",
+          "rootProcessInstanceKey": "2251799813685454"
+        },
+        {
+          "value": "\"http://mock-legacy:8080\"",
+          "isTruncated": false,
+          "name": "baseUrl",
+          "tenantId": "<default>",
+          "variableKey": "2251799813685464",
+          "scopeKey": "2251799813685461",
+          "processInstanceKey": "2251799813685454",
+          "rootProcessInstanceKey": "2251799813685454"
+        },
+        {
+          "value": "85000",
+          "isTruncated": false,
+          "name": "amount",
+          "tenantId": "<default>",
+          "variableKey": "2251799813685465",
+          "scopeKey": "2251799813685461",
+          "processInstanceKey": "2251799813685454",
+          "rootProcessInstanceKey": "2251799813685454"
+        },
+        {
+          "value": "{\"applicantId\":\"MANUAL-2001\",\"creditScore\":714,\"riskBand\":\"LOW\",\"legacyReference\":\"CR-94214\",\"upstreamStatus\":200,\"latencyMillis\":456}",
+          "isTruncated": false,
+          "name": "creditCheck",
+          "tenantId": "<default>",
+          "variableKey": "2251799813685469",
+          "scopeKey": "2251799813685454",
+          "processInstanceKey": "2251799813685454",
+          "rootProcessInstanceKey": "2251799813685454"
+        },
+        {
+          "value": "true",
+          "isTruncated": false,
+          "name": "approved",
+          "tenantId": "<default>",
+          "variableKey": "2251799813685477",
+          "scopeKey": "2251799813685454",
+          "processInstanceKey": "2251799813685454",
+          "rootProcessInstanceKey": "2251799813685454"
+        },
+        {
+          "value": "\"http://mock-legacy:8080\"",
+          "isTruncated": false,
+          "name": "baseUrl",
+          "tenantId": "<default>",
+          "variableKey": "2251799813685482",
+          "scopeKey": "2251799813685481",
+          "processInstanceKey": "2251799813685454",
+          "rootProcessInstanceKey": "2251799813685454"
+        },
+        {
+          "value": "\"MANUAL-2001\"",
+          "isTruncated": false,
+          "name": "applicantId",
+          "tenantId": "<default>",
+          "variableKey": "2251799813685483",
+          "scopeKey": "2251799813685481",
+          "processInstanceKey": "2251799813685454",
+          "rootProcessInstanceKey": "2251799813685454"
+        },
+        {
+          "value": "\"APPROVED\"",
+          "isTruncated": false,
+          "name": "decision",
+          "tenantId": "<default>",
+          "variableKey": "2251799813685484",
+          "scopeKey": "2251799813685481",
+          "processInstanceKey": "2251799813685454",
+          "rootProcessInstanceKey": "2251799813685454"
+        },
+        {
+          "value": "\"Your loan application was approved.\"",
+          "isTruncated": false,
+          "name": "message",
+          "tenantId": "<default>",
+          "variableKey": "2251799813685485",
+          "scopeKey": "2251799813685481",
+          "processInstanceKey": "2251799813685454",
+          "rootProcessInstanceKey": "2251799813685454"
+        },
+        {
+          "value": "\"1800\"",
+          "isTruncated": false,
+          "name": "timeoutMillis",
+          "tenantId": "<default>",
+          "variableKey": "2251799813685486",
+          "scopeKey": "2251799813685481",
+          "processInstanceKey": "2251799813685454",
+          "rootProcessInstanceKey": "2251799813685454"
+        },
+        {
+          "value": "{\"notificationId\":\"3597eb2a-5390-423f-8a36-afd67e04e713\",\"status\":\"QUEUED\",\"upstreamStatus\":200,\"latencyMillis\":155}",
+          "isTruncated": false,
+          "name": "approvalNotification",
+          "tenantId": "<default>",
+          "variableKey": "2251799813685490",
+          "scopeKey": "2251799813685454",
+          "processInstanceKey": "2251799813685454",
+          "rootProcessInstanceKey": "2251799813685454"
+        }
+      ],
+      "incidents": [],
+      "elementInstances": [
+        {
+          "processDefinitionId": "loan-approval",
+          "startDate": "2026-11-27T13:57:00.090Z",
+          "endDate": "2026-11-27T13:57:00.090Z",
+          "elementId": "StartApplicationReceived",
+          "elementName": "Application received",
+          "type": "START_EVENT",
+          "state": "COMPLETED",
+          "hasIncident": false,
+          "tenantId": "<default>",
+          "elementInstanceKey": "2251799813685459",
+          "processInstanceKey": "2251799813685454",
+          "rootProcessInstanceKey": "2251799813685454",
+          "processDefinitionKey": "2251799813685422",
+          "incidentKey": null
+        },
+        {
+          "processDefinitionId": "loan-approval",
+          "startDate": "2026-11-27T13:57:00.090Z",
+          "endDate": "2026-11-27T13:57:00.581Z",
+          "elementId": "CreditCheckTask",
+          "elementName": "Credit check (legacy core)",
+          "type": "SERVICE_TASK",
+          "state": "COMPLETED",
+          "hasIncident": false,
+          "tenantId": "<default>",
+          "elementInstanceKey": "2251799813685461",
+          "processInstanceKey": "2251799813685454",
+          "rootProcessInstanceKey": "2251799813685454",
+          "processDefinitionKey": "2251799813685422",
+          "incidentKey": null
+        },
+        {
+          "processDefinitionId": "loan-approval",
+          "startDate": "2026-11-27T13:57:00.581Z",
+          "endDate": "2026-11-27T13:57:00.581Z",
+          "elementId": "GatewayAutoDecision",
+          "elementName": "Auto-approval rules met?",
+          "type": "EXCLUSIVE_GATEWAY",
+          "state": "COMPLETED",
+          "hasIncident": false,
+          "tenantId": "<default>",
+          "elementInstanceKey": "2251799813685471",
+          "processInstanceKey": "2251799813685454",
+          "rootProcessInstanceKey": "2251799813685454",
+          "processDefinitionKey": "2251799813685422",
+          "incidentKey": null
+        },
+        {
+          "processDefinitionId": "loan-approval",
+          "startDate": "2026-11-27T13:57:00.581Z",
+          "endDate": "2026-11-27T13:57:01.184Z",
+          "elementId": "ManualReviewTask",
+          "elementName": "Manual underwriting review",
+          "type": "USER_TASK",
+          "state": "COMPLETED",
+          "hasIncident": false,
+          "tenantId": "<default>",
+          "elementInstanceKey": "2251799813685473",
+          "processInstanceKey": "2251799813685454",
+          "rootProcessInstanceKey": "2251799813685454",
+          "processDefinitionKey": "2251799813685422",
+          "incidentKey": null
+        },
+        {
+          "processDefinitionId": "loan-approval",
+          "startDate": "2026-11-27T13:57:01.184Z",
+          "endDate": "2026-11-27T13:57:01.184Z",
+          "elementId": "GatewayReviewDecision",
+          "elementName": "Reviewer approved?",
+          "type": "EXCLUSIVE_GATEWAY",
+          "state": "COMPLETED",
+          "hasIncident": false,
+          "tenantId": "<default>",
+          "elementInstanceKey": "2251799813685479",
+          "processInstanceKey": "2251799813685454",
+          "rootProcessInstanceKey": "2251799813685454",
+          "processDefinitionKey": "2251799813685422",
+          "incidentKey": null
+        },
+        {
+          "processDefinitionId": "loan-approval",
+          "startDate": "2026-11-27T13:57:01.184Z",
+          "endDate": "2026-11-27T13:57:01.367Z",
+          "elementId": "NotifyApprovedTask",
+          "elementName": "Notify applicant: approved",
+          "type": "SERVICE_TASK",
+          "state": "COMPLETED",
+          "hasIncident": false,
+          "tenantId": "<default>",
+          "elementInstanceKey": "2251799813685481",
+          "processInstanceKey": "2251799813685454",
+          "rootProcessInstanceKey": "2251799813685454",
+          "processDefinitionKey": "2251799813685422",
+          "incidentKey": null
+        },
+        {
+          "processDefinitionId": "loan-approval",
+          "startDate": "2026-11-27T13:57:01.367Z",
+          "endDate": "2026-11-27T13:57:01.367Z",
+          "elementId": "EndApproved",
+          "elementName": "Approved notification sent",
+          "type": "END_EVENT",
+          "state": "COMPLETED",
+          "hasIncident": false,
+          "tenantId": "<default>",
+          "elementInstanceKey": "2251799813685492",
+          "processInstanceKey": "2251799813685454",
+          "rootProcessInstanceKey": "2251799813685454",
+          "processDefinitionKey": "2251799813685422",
+          "incidentKey": null
+        }
+      ],
+      "completedUserTaskKey": "2251799813685474"
+    },
+    "legacy-error": {
+      "processInstanceKey": "2251799813685493",
+      "state": "COMPLETED",
+      "hasIncident": false,
+      "variables": [
+        {
+          "value": "\"legacy-error\"",
+          "isTruncated": false,
+          "name": "scenario",
+          "tenantId": "<default>",
+          "variableKey": "2251799813685494",
+          "scopeKey": "2251799813685493",
+          "processInstanceKey": "2251799813685493",
+          "rootProcessInstanceKey": "2251799813685493"
+        },
+        {
+          "value": "12000",
+          "isTruncated": false,
+          "name": "amount",
+          "tenantId": "<default>",
+          "variableKey": "2251799813685495",
+          "scopeKey": "2251799813685493",
+          "processInstanceKey": "2251799813685493",
+          "rootProcessInstanceKey": "2251799813685493"
+        },
+        {
+          "value": "\"ERR-3001\"",
+          "isTruncated": false,
+          "name": "applicantId",
+          "tenantId": "<default>",
+          "variableKey": "2251799813685496",
+          "scopeKey": "2251799813685493",
+          "processInstanceKey": "2251799813685493",
+          "rootProcessInstanceKey": "2251799813685493"
+        },
+        {
+          "value": "\"1800\"",
+          "isTruncated": false,
+          "name": "timeoutMillis",
+          "tenantId": "<default>",
+          "variableKey": "2251799813685501",
+          "scopeKey": "2251799813685500",
+          "processInstanceKey": "2251799813685493",
+          "rootProcessInstanceKey": "2251799813685493"
+        },
+        {
+          "value": "\"http://mock-legacy:8080\"",
+          "isTruncated": false,
+          "name": "baseUrl",
+          "tenantId": "<default>",
+          "variableKey": "2251799813685502",
+          "scopeKey": "2251799813685500",
+          "processInstanceKey": "2251799813685493",
+          "rootProcessInstanceKey": "2251799813685493"
+        },
+        {
+          "value": "12000",
+          "isTruncated": false,
+          "name": "amount",
+          "tenantId": "<default>",
+          "variableKey": "2251799813685503",
+          "scopeKey": "2251799813685500",
+          "processInstanceKey": "2251799813685493",
+          "rootProcessInstanceKey": "2251799813685493"
+        },
+        {
+          "value": "\"ERR-3001\"",
+          "isTruncated": false,
+          "name": "applicantId",
+          "tenantId": "<default>",
+          "variableKey": "2251799813685504",
+          "scopeKey": "2251799813685500",
+          "processInstanceKey": "2251799813685493",
+          "rootProcessInstanceKey": "2251799813685493"
+        },
+        {
+          "value": "{\"message\":\"Legacy system returned HTTP 500\",\"type\":\"io.camunda.connector.api.error.ConnectorRetryException\",\"code\":\"LEGACY_UNAVAILABLE\"}",
+          "isTruncated": false,
+          "name": "error",
+          "tenantId": "<default>",
+          "variableKey": "2251799813685507",
+          "scopeKey": "2251799813685500",
+          "processInstanceKey": "2251799813685493",
+          "rootProcessInstanceKey": "2251799813685493"
+        },
+        {
+          "value": "\"MANUAL_FOLLOW_UP\"",
+          "isTruncated": false,
+          "name": "decision",
+          "tenantId": "<default>",
+          "variableKey": "2251799813685562",
+          "scopeKey": "2251799813685561",
+          "processInstanceKey": "2251799813685493",
+          "rootProcessInstanceKey": "2251799813685493"
+        },
+        {
+          "value": "\"Our credit system is unavailable; underwriting will follow up manually.\"",
+          "isTruncated": false,
+          "name": "message",
+          "tenantId": "<default>",
+          "variableKey": "2251799813685563",
+          "scopeKey": "2251799813685561",
+          "processInstanceKey": "2251799813685493",
+          "rootProcessInstanceKey": "2251799813685493"
+        },
+        {
+          "value": "\"http://mock-legacy:8080\"",
+          "isTruncated": false,
+          "name": "baseUrl",
+          "tenantId": "<default>",
+          "variableKey": "2251799813685564",
+          "scopeKey": "2251799813685561",
+          "processInstanceKey": "2251799813685493",
+          "rootProcessInstanceKey": "2251799813685493"
+        },
+        {
+          "value": "\"1800\"",
+          "isTruncated": false,
+          "name": "timeoutMillis",
+          "tenantId": "<default>",
+          "variableKey": "2251799813685565",
+          "scopeKey": "2251799813685561",
+          "processInstanceKey": "2251799813685493",
+          "rootProcessInstanceKey": "2251799813685493"
+        },
+        {
+          "value": "\"ERR-3001\"",
+          "isTruncated": false,
+          "name": "applicantId",
+          "tenantId": "<default>",
+          "variableKey": "2251799813685566",
+          "scopeKey": "2251799813685561",
+          "processInstanceKey": "2251799813685493",
+          "rootProcessInstanceKey": "2251799813685493"
+        },
+        {
+          "value": "{\"notificationId\":\"26602b5d-041d-4e82-98b2-bb519d3c786a\",\"status\":\"QUEUED\",\"upstreamStatus\":200,\"latencyMillis\":155}",
+          "isTruncated": false,
+          "name": "legacyErrorNotification",
+          "tenantId": "<default>",
+          "variableKey": "2251799813685570",
+          "scopeKey": "2251799813685493",
+          "processInstanceKey": "2251799813685493",
+          "rootProcessInstanceKey": "2251799813685493"
+        }
+      ],
+      "incidents": [],
+      "elementInstances": [
+        {
+          "processDefinitionId": "loan-approval",
+          "startDate": "2026-11-27T13:57:02.259Z",
+          "endDate": "2026-11-27T13:57:02.259Z",
+          "elementId": "StartApplicationReceived",
+          "elementName": "Application received",
+          "type": "START_EVENT",
+          "state": "COMPLETED",
+          "hasIncident": false,
+          "tenantId": "<default>",
+          "elementInstanceKey": "2251799813685498",
+          "processInstanceKey": "2251799813685493",
+          "rootProcessInstanceKey": "2251799813685493",
+          "processDefinitionKey": "2251799813685422",
+          "incidentKey": null
+        },
+        {
+          "processDefinitionId": "loan-approval",
+          "startDate": "2026-11-27T13:57:02.259Z",
+          "endDate": "2026-11-27T13:57:09.158Z",
+          "elementId": "CreditCheckTask",
+          "elementName": "Credit check (legacy core)",
+          "type": "SERVICE_TASK",
+          "state": "TERMINATED",
+          "hasIncident": false,
+          "tenantId": "<default>",
+          "elementInstanceKey": "2251799813685500",
+          "processInstanceKey": "2251799813685493",
+          "rootProcessInstanceKey": "2251799813685493",
+          "processDefinitionKey": "2251799813685422",
+          "incidentKey": null
+        },
+        {
+          "processDefinitionId": "loan-approval",
+          "startDate": "2026-11-27T13:57:09.158Z",
+          "endDate": "2026-11-27T13:57:09.158Z",
+          "elementId": "BoundaryLegacyError",
+          "elementName": "Legacy unavailable",
+          "type": "BOUNDARY_EVENT",
+          "state": "COMPLETED",
+          "hasIncident": false,
+          "tenantId": "<default>",
+          "elementInstanceKey": "2251799813685559",
+          "processInstanceKey": "2251799813685493",
+          "rootProcessInstanceKey": "2251799813685493",
+          "processDefinitionKey": "2251799813685422",
+          "incidentKey": null
+        },
+        {
+          "processDefinitionId": "loan-approval",
+          "startDate": "2026-11-27T13:57:09.158Z",
+          "endDate": "2026-11-27T13:57:09.324Z",
+          "elementId": "NotifyLegacyErrorTask",
+          "elementName": "Notify applicant: manual follow-up",
+          "type": "SERVICE_TASK",
+          "state": "COMPLETED",
+          "hasIncident": false,
+          "tenantId": "<default>",
+          "elementInstanceKey": "2251799813685561",
+          "processInstanceKey": "2251799813685493",
+          "rootProcessInstanceKey": "2251799813685493",
+          "processDefinitionKey": "2251799813685422",
+          "incidentKey": null
+        },
+        {
+          "processDefinitionId": "loan-approval",
+          "startDate": "2026-11-27T13:57:09.324Z",
+          "endDate": "2026-11-27T13:57:09.324Z",
+          "elementId": "EndLegacyError",
+          "elementName": "Manual follow-up sent",
+          "type": "END_EVENT",
+          "state": "COMPLETED",
+          "hasIncident": false,
+          "tenantId": "<default>",
+          "elementInstanceKey": "2251799813685572",
+          "processInstanceKey": "2251799813685493",
+          "rootProcessInstanceKey": "2251799813685493",
+          "processDefinitionKey": "2251799813685422",
+          "incidentKey": null
+        }
+      ]
+    }
+  },
+  "evidenceFiles": [
+    "results/connectors.log",
+    "results/mock-legacy.log"
+  ]
+}

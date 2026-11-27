@@ -1,0 +1,31 @@
+mock-legacy  | 
+mock-legacy  |   .   ____          _            __ _ _
+mock-legacy  |  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+mock-legacy  | ( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+mock-legacy  |  \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+mock-legacy  |   '  |____| .__|_| |_|_| |_\__, | / / / /
+mock-legacy  |  =========|_|==============|___/=/_/_/_/
+mock-legacy  | 
+mock-legacy  |  :: Spring Boot ::                (v3.5.7)
+mock-legacy  | 
+mock-legacy  | 2026-11-27T13:55:23.796Z  INFO 1 --- [           main] com.acme.legacy.MockLegacyApplication    : Starting MockLegacyApplication v0.1.0-SNAPSHOT using Java 25.0.5.1 with PID 1 (/app/app.jar started by camunda in /app)
+mock-legacy  | 2026-11-27T13:55:23.799Z  INFO 1 --- [           main] com.acme.legacy.MockLegacyApplication    : No active profile set, falling back to 1 default profile: "default"
+mock-legacy  | 2026-11-27T13:55:24.869Z  INFO 1 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+mock-legacy  | 2026-11-27T13:55:24.882Z  INFO 1 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+mock-legacy  | 2026-11-27T13:55:24.883Z  INFO 1 --- [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.48]
+mock-legacy  | 2026-11-27T13:55:24.921Z  INFO 1 --- [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+mock-legacy  | 2026-11-27T13:55:24.921Z  INFO 1 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1057 ms
+mock-legacy  | 2026-11-27T13:55:25.554Z  INFO 1 --- [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+mock-legacy  | 2026-11-27T13:55:25.644Z  INFO 1 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+mock-legacy  | 2026-11-27T13:55:25.660Z  INFO 1 --- [           main] com.acme.legacy.MockLegacyApplication    : Started MockLegacyApplication in 2.298 seconds (process running for 2.625)
+mock-legacy  | 2026-11-27T13:56:58.033Z  INFO 1 --- [nio-8080-exec-9] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+mock-legacy  | 2026-11-27T13:56:58.034Z  INFO 1 --- [nio-8080-exec-9] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+mock-legacy  | 2026-11-27T13:56:58.034Z  INFO 1 --- [nio-8080-exec-9] o.s.web.servlet.DispatcherServlet        : Completed initialization in 0 ms
+mock-legacy  | 2026-11-27T13:56:58.116Z  INFO 1 --- [nio-8080-exec-9] com.acme.legacy.MockLegacyApplication    : legacy credit check call=1 applicant=AUTO-1001 amount=15000.0 delayMs=450 forcedFailure=false occasionalFailure=false
+mock-legacy  | 2026-11-27T13:56:58.995Z  INFO 1 --- [io-8080-exec-10] com.acme.legacy.MockLegacyApplication    : legacy notification applicant=AUTO-1001 decision=APPROVED message=Your loan application was approved.
+mock-legacy  | 2026-11-27T13:57:00.103Z  INFO 1 --- [nio-8080-exec-2] com.acme.legacy.MockLegacyApplication    : legacy credit check call=2 applicant=MANUAL-2001 amount=85000.0 delayMs=450 forcedFailure=false occasionalFailure=false
+mock-legacy  | 2026-11-27T13:57:01.360Z  INFO 1 --- [nio-8080-exec-3] com.acme.legacy.MockLegacyApplication    : legacy notification applicant=MANUAL-2001 decision=APPROVED message=Your loan application was approved.
+mock-legacy  | 2026-11-27T13:57:02.272Z  INFO 1 --- [nio-8080-exec-4] com.acme.legacy.MockLegacyApplication    : legacy credit check call=3 applicant=ERR-3001 amount=12000.0 delayMs=450 forcedFailure=true occasionalFailure=false
+mock-legacy  | 2026-11-27T13:57:05.579Z  INFO 1 --- [nio-8080-exec-6] com.acme.legacy.MockLegacyApplication    : legacy credit check call=4 applicant=ERR-3001 amount=12000.0 delayMs=450 forcedFailure=true occasionalFailure=false
+mock-legacy  | 2026-11-27T13:57:08.608Z  INFO 1 --- [nio-8080-exec-7] com.acme.legacy.MockLegacyApplication    : legacy credit check call=5 applicant=ERR-3001 amount=12000.0 delayMs=450 forcedFailure=true occasionalFailure=false
+mock-legacy  | 2026-11-27T13:57:09.318Z  INFO 1 --- [nio-8080-exec-9] com.acme.legacy.MockLegacyApplication    : legacy notification applicant=ERR-3001 decision=MANUAL_FOLLOW_UP message=Our credit system is unavailable; underwriting will follow up manually.
